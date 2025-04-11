@@ -15,27 +15,6 @@ class EstudanteSerializer(serializers.ModelSerializer):
         if numero_celular_invalido(dados['numero_celular']):
             raise serializers.ValidationError({'numero_celular':'O número de numero_celular deve seguir a seguinte formatação: ## #####-####(repseitando traços e espaços).'})
         return dados
-
-        
-
-    
-    
-        
-    # def validate_cpf(self, cpf):
-    #     # if len(cpf) != 11:
-    #     #     raise serializers.ValidationError('O CPF deve conter 11 dígitos.')
-    #     # return cpf
-    
-    # def validate_nome(self, nome):
-    #     if not nome.isalpha():
-    #         raise serializers.ValidationError('O nome deve conter apenas letras.')
-    #     return nome
-    # def validate_numero_celular(self, numero_celular):
-    #     if len(numero_celular) != 13:
-    #         raise serializers.ValidationError('O número de numero_celular deve conter 13 dígitos.')
-    #     return numero_celular
-    
-    
 class CursoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Curso
@@ -63,3 +42,7 @@ class ListaMatriculasCursosSerializer(serializers.ModelSerializer):
     def get_periodo(self, obj):
         return obj.get_periodo_display()
                      
+class EstudanteSerializerV2(serializers.ModelSerializer):
+    class Meta:
+        model = Estudante
+        fields = ['id', 'nome', 'email', 'numero_celular']                     
