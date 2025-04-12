@@ -27,7 +27,6 @@ class CursoViewSet(viewsets.ModelViewSet):
 class MatriculaViewSet(viewsets.ModelViewSet):
     queryset = Matricula.objects.all().order_by("id")
     serializer_class = MatriculaSerializer
-    permission_classes = [DjangoModelPermissions]
     throttle_classes = [UserRateThrottle,MatriculaAnonRateThrottle]
     http_method_names = ["get", "post"]
 
