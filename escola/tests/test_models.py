@@ -1,4 +1,3 @@
-#test_models.py
 from django.test import TestCase
 from escola.models import Estudante,Curso,Matricula
 
@@ -62,5 +61,3 @@ class ModelMatriculaTestCase(TestCase):
         self.assertEqual(self.matricula.estudante.nome, 'Teste Modelo Matricula')
         self.assertEqual(self.matricula.curso.descricao, 'Curso Teste Modelo Matricula')
         self.assertEqual(self.matricula.periodo, 'M')
-
-    

@@ -6,37 +6,31 @@ from rest_framework import status
 
 class AuthenticationUserTestCase(APITestCase):
     def setUp(self):
-        # Create a user for testing
         self.usuario = User.objects.create_superuser(username='admin',password='admin')
         self.url = reverse('Estudantes-list')
-        
+
     def test_autenticacao_user_com_credenciais_corretas(self):
-        '''Teste que verifica a autenticação de um user com as credenciais corretas.'''
-        usuario = authenticate(username='admin', password='admin')
+        """Teste que verifica a autenticação de um user com as credenciais corretas"""
+        usuario = authenticate(username = 'admin',password='admin')
         self.assertTrue((usuario is not None) and usuario.is_authenticated)
-        
+    
     def test_autenticacao_user_com_username_incorreto(self):
-        '''Teste que verifica a autenticação de um user com o username incorreto.'''
-        usuario = authenticate(username='admn', password='admin')
+        """Teste que verifica a autenticação com username incorreto"""
+        usuario = authenticate(username = 'admn',password='admin')
         self.assertFalse((usuario is not None) and usuario.is_authenticated)
-        
+    
     def test_autenticacao_user_com_senha_incorreta(self):
-        '''Teste que verifica a autenticação de um user com a senha incorreta.'''
-        usuario = authenticate(username='admin', password='adn')
+        """Teste que verifica a autenticação com senha incorreta"""
+        usuario = authenticate(username = 'admin',password='adm')
         self.assertFalse((usuario is not None) and usuario.is_authenticated)
-        
+
     def test_requisicao_get_autorizada(self):
-        '''Teste que verifica se a requisição GET é autorizada.'''
+        """Teste que verifica uma requisição GET autorizada"""
         self.client.force_authenticate(self.usuario)
         response = self.client.get(self.url)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        
+        self.assertEqual(response.status_code,status.HTTP_200_OK)
+
     def test_requisicao_get_nao_autorizada(self):
-        '''Teste que verifica se a requisição GET é autorizada.'''
-        # self.client.force_authenticate(self.usuario)
+        """Teste que verifica uma requisição GET não autorizada"""
         response = self.client.get(self.url)
-        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
-        
-        
-        
-            
+        self.assertEqual(response.status_code,status.HTTP_401_UNAUTHORIZED)

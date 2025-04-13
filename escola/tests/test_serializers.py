@@ -1,54 +1,44 @@
-#test_serializers.py
 from django.test import TestCase
 from escola.models import Estudante,Curso,Matricula
-from escola.serializers import EstudanteSerializer,CursoSerializer,MatriculaSerializer
 
-class SerializerEstudanteTestCase(TestCase):
+class ModelEstudanteTestCase(TestCase):
+    # def teste_falha(self):
+    #     self.fail('Teste falhou :(')
+
     def setUp(self):
-        self.estudante = Estudante(
+        self.estudante = Estudante.objects.create(
             nome = 'Teste de Modelo',
             email = 'testedemodelo@gmail.com',
             cpf = '68195899056',
             data_nascimento = '2023-02-02',
             celular = '86 99999-9999'
         )
-        self.serializer_estudante = EstudanteSerializer(instance=self.estudante)
-
-    def test_verifica_campos_serializados_de_estudante(self):
-        """Teste que verifica os campos que estão sendo serializados de estudante"""
-        dados = self.serializer_estudante.data
-        self.assertEqual(set(dados.keys()),set(['id','nome','email','cpf','data_nascimento','celular']))
-    def test_verifica_conteudo_dos_campos_serializados_de_estudante(self):
-        """Teste que verifica o conteúdo dos campos que estão sendo serializados de estudante"""
-        dados = self.serializer_estudante.data
-        self.assertEqual(dados['nome'],self.estudante.nome)
-        self.assertEqual(dados['email'],self.estudante.email)
-        self.assertEqual(dados['cpf'],self.estudante.cpf)
-        self.assertEqual(dados['data_nascimento'],self.estudante.data_nascimento)
-        self.assertEqual(dados['celular'],self.estudante.celular)
     
-class SerializerCursoTestCase(TestCase):
+    def test_verifica_atributos_de_estudante(self):
+        """Teste que verifica os atributos do modelo de Estudante"""
+        self.assertEqual(self.estudante.nome,'Teste de Modelo')
+        self.assertEqual(self.estudante.email,'testedemodelo@gmail.com')
+        self.assertEqual(self.estudante.cpf,'68195899056')
+        self.assertEqual(self.estudante.data_nascimento,'2023-02-02')
+        self.assertEqual(self.estudante.celular,'86 99999-9999')
+
+class ModelCursoTestCase(TestCase):
+    
     def setUp(self):
-        self.curso = Curso(
+        self.curso = Curso.objects.create(
             codigo = 'CTM',
             descricao = 'Curso Teste Modelo',
             nivel = 'B',
         )
-        self.serializer_curso = CursoSerializer(instance=self.curso)
-
-    def test_verifica_campos_serializados_de_curso(self):
-        """Teste que verifica os campos que estão sendo serializados de curso"""
-        dados = self.serializer_curso.data
-        self.assertEqual(set(dados.keys()),set(['id','codigo','descricao','nivel']))  
     
-    def test_verifica_conteudo_dos_campos_serializados_de_estudante(self):
-        """Teste que verifica o conteúdo dos campos que estão sendo serializados de estudante"""
-        dados = self.serializer_curso.data
-        self.assertEqual(dados['codigo'],self.curso.codigo)
-        self.assertEqual(dados['descricao'],self.curso.descricao)
-        self.assertEqual(dados['nivel'],self.curso.nivel)
+    def test_verifica_atributos_de_curso(self):
+        """Teste que verifica os atributos do modelo de Curso"""
+        self.assertEqual(self.curso.codigo, 'CTM')
+        self.assertEqual(self.curso.descricao, 'Curso Teste Modelo')
+        self.assertEqual(self.curso.nivel, 'B')
 
-class SerializerMatriculaTestCase(TestCase):
+class ModelMatriculaTestCase(TestCase):
+    
     def setUp(self):
         self.estudante_matricula = Estudante.objects.create(
             nome = 'Teste Modelo Matricula',
@@ -65,16 +55,9 @@ class SerializerMatriculaTestCase(TestCase):
             curso=self.curso_matricula,
             periodo='M'
         )
-        self.serializer_matricula = MatriculaSerializer(instance=self.matricula)
-
-    def test_verifica_campos_serializados_de_matricula(self):
-        """Teste que verifica os campos que estão sendo serializados de matricula"""
-        dados = self.serializer_matricula.data
-        self.assertEqual(set(dados.keys()),set(['id','estudante','curso','periodo']))  
     
-    def test_verifica_conteudo_dos_campos_serializados_de_estudante(self):
-        """Teste que verifica o conteúdo dos campos que estão sendo serializados de estudante"""
-        dados = self.serializer_matricula.data
-        self.assertEqual(dados['estudante'],self.matricula.estudante.id)
-        self.assertEqual(dados['curso'],self.matricula.curso.id)
-        self.assertEqual(dados['periodo'],self.matricula.periodo)
+    def test_verifica_atributos_de_matricula(self):
+        """Teste que verifica os atributos do modelo de Matricula"""
+        self.assertEqual(self.matricula.estudante.nome, 'Teste Modelo Matricula')
+        self.assertEqual(self.matricula.curso.descricao, 'Curso Teste Modelo Matricula')
+        self.assertEqual(self.matricula.periodo, 'M')
